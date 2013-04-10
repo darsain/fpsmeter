@@ -1,0 +1,20 @@
+{
+	"name": "fpsmeter",
+	"title": "FPSMeter",
+	"description": "Sexy, fast, and themable FPS meter.",
+	"version": "0.1.0",
+	"date": "2013-04-10 20:09:39 +00:00",
+	"homepage": "https://github.com/Darsain/fpsmeter",
+	"main": "./dist/fpsmeter.js",
+	"bugs": "https://github.com/Darsain/fpsmeter/issues",
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/Darsain/fpsmeter.git"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://opensource.org/licenses/MIT"
+		}
+	]
+}
