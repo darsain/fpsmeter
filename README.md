@@ -24,6 +24,7 @@ FPSMeter upholds the [Semantic Versioning Specification](http://semver.org/).
 - **[Options](https://github.com/Darsain/fpsmeter/wiki/Options)** - all available options
 - **[Properties](https://github.com/Darsain/fpsmeter/wiki/Properties)** - accessible FPSMeter object properties
 - **[Methods](https://github.com/Darsain/fpsmeter/wiki/Methods)** - all available methods, and how to use them
+- **[Theming](https://github.com/Darsain/fpsmeter/wiki/Theming)** - how to theme FPSMeter
 
 ## Contributing
 
