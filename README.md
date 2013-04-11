@@ -22,6 +22,19 @@ Works in IE7+ and all modern browsers.
 
 FPSMeter upholds the [Semantic Versioning Specification](http://semver.org/).
 
+## Installation
+
+Bower:
+
+```shell
+bower install fpsmeter
+```
+
+Or manually download and handle the distribution versions:
+
+- [Production (minified)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.min.js)
+- [Development (full source)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.js)
+
 ## Documentation
 
 - **[Calling](https://github.com/Darsain/fpsmeter/wiki/Calling)** - how to call FPSMeter, plus usage examples
