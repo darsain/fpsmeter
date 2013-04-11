@@ -186,6 +186,7 @@
 		self.hide = function () {
 			self.pause();
 			el.container.style.display = 'none';
+			return self;
 		};
 
 		/**
@@ -196,6 +197,7 @@
 		self.show = function () {
 			self.resume();
 			el.container.style.display = 'block';
+			return self;
 		};
 
 		/**
@@ -438,14 +440,6 @@
 		 */
 		function positionMeter() {
 			applyTheme(el.container, o);
-			/*
-			el.container.style.position = o.position;
-			el.container.style.zIndex = o.zIndex;
-			el.container.style.top = o.top;
-			el.container.style.left = o.left;
-			el.container.style.right = o.right;
-			el.container.style.bottom = o.right;
-			el.container.style.margin = o.margin;*/
 		}
 
 		/**
