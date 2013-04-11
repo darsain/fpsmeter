@@ -30,10 +30,10 @@ Bower:
 bower install fpsmeter
 ```
 
-Or manually download and handle the distribution versions:
+Or manually download the latest stable release:
 
-- [Production (minified)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.min.js)
-- [Development (full source)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.js)
+- [Production (minified)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.min.js) - 7KB, 3KB gzipped
+- [Development (full source)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.js) - 18KB
 
 ## Documentation
 
