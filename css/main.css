@@ -1,0 +1,38 @@
+/* Header style */
+header.projecttitle { margin: 0 auto; padding: 115px 0; color: #fff; text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+	background: url('../img/background.jpg') no-repeat 50% 50% #382d2b;
+}
+header .projectname { text-shadow: 2px 2px 0 rgba(0,0,0,.3); }
+.download { margin-top: -45px; }
+
+/* Color theme */
+a,
+ul.grid li a,
+.download a:hover,
+.repos ul li a:hover { color: #d99241; }
+
+.chromeframe,
+.download a,
+ul.grid li a:hover,
+.mainnav ul li.active a,
+.license:hover { background: #e8a446; }
+.license:hover:before,
+.mainnav ul li.active a:before { border-right-color: #e8a446; }
+.download a.repo:before,
+.license:hover:after { border-left-color: #e8a446; }
+
+/* Dark bg */
+.download h2,
+.download h3,
+.license { background: #38393d; }
+
+.download h2:before,
+.license:before { border-right-color: #38393d; }
+.download h2:after,
+.license:after { border-left-color: #38393d; }
+
+
+/* Example */
+.example { position: relative; margin: 100px auto 0; padding-top: 100px; }
+.example button { margin: 0 10px; font-family: Novecento, sans-serif; color: #fff; text-shadow: 1px 1px 0 #000; background: transparent; border: 0 }
+.example button i { margin-right: 3px; font-size: 18px; vertical-align: middle; }

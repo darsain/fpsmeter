@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>FPSMeter</title>
+	<meta name="description" content="Simple JavaScript library for sexy, fast, and themable FPS meter.">
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" href="css/ospb.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/vendor/modernizr.js"></script>
+</head>
+<body data-repo="Darsain/fpsmeter" data-metafile="component.json">
+	<!--[if lt IE 9]>
+		<p class="chromeframe"><i class="icon-warning-sign icon-large"></i> You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience. <i class="icon-warning-sign icon-large"></i></p>
+	<![endif]-->
+
+	<header class="projecttitle">
+		<div class="titlewrap">
+			<h1 class="projectname">FPSMeter</h1>
+			<a href="https://twitter.com/Darsain" class="follow"><i class="icon-twitter icon-large"></i> Follow for updates</a>
+		</div>
+		<p class="projectdescription">Simple JavaScript library for sexy, fast, and themable FPS meter</p>
+
+		<div id="example" class="example pagespan text-center">
+			<p>
+				<button data-toggle="heat"><i class="icon-check"></i> heat</button>
+				<button data-toggle="graph"><i class="icon-check"></i> graph</button>
+			</p>
+		</div>
+	</header>
+
+	<div class="download pagespan" id="download" data-point="download" data-title="Download" data-active-when="down">
+		<h2>Download <small>latest stable</small></h2>
+		<h3 id="version"><span class="loading">loading <i class="icon-refresh icon-large icon-spin"></i></span></h3>
+
+		<a href="https://github.com/Darsain/fpsmeter/raw/master/dist/fpsmeter.min.js" data-tooltip="3KB gzipped" data-style="light">
+			<span class="title">Production</span> <span class="size">7 KB</span>
+		</a>
+		<a href="https://github.com/Darsain/fpsmeter/raw/master/dist/fpsmeter.js">
+			<span class="title">Development</span> <span class="size">18 KB</span>
+		</a>
+		<a href="https://github.com/Darsain/fpsmeter" class="repo" id="repo">
+			<i class="icon-github"></i>
+			<span class="title">Repository</span>
+			<span class="loading"><i class="icon-refresh icon-large icon-spin"></i> loading</span>
+		</a>
+	</div>
+	<div class="download-border pagespan"></div>
+
+	<div id="content" class="content pagespan">
+
+		<nav id="mainnav" class="mainnav"></nav>
+
+		<section data-point="introduction" data-title="Introduction">
+			<h2>Introduction</h2>
+
+			<p>Simple JavaScript library for sexy, fast, and themable FPS meter. It can measure:</p>
+
+			<ul>
+				<li>frames per second</li>
+				<li>number of milliseconds between frames</li>
+				<li>number of milliseconds it takes to render one frame (when using the <code>.tickStart()</code> method)</li>
+			</ul>
+
+			<p>FPSMeter supports multiple instances on one page, has show/hide methods that also pause the meter rendering, and color heatmaps that make themes even more pretty!</p>
+
+			<h3>Dependencies</h3>
+
+			<p>None.</p>
+
+			<h3>Compatibility</h3>
+
+			<p>All modern browsers, and IE7+.</p>
+
+			<h3><a href="https://github.com/Darsain/fpsmeter/wiki/Changelog">Changelog</a></h3>
+
+			<p>FPSMeter upholds the <a href="http://semver.org">Semantic Versioning Specification</a>.</p>
+		</section>
+
+		<section data-point="installation" data-title="Installation">
+			<h2>Installation</h2>
+
+			<p>Apart of downloading manually, you can also use <a href="http://twitter.github.io/bower">Bower</a>:</p>
+
+			<pre><code data-language="shell">bower install fpsmeter</code></pre>
+		</section>
+
+		<section data-point="performance" data-title="Performance">
+			<h2>Performance</h2>
+
+			<p>FPSMeter rendering happens once per <code>option.interval</code>, and is chained to requestAnimationFrame (with a polyfill for older browsers). It is also GC optimized, so it should be as fast as possible.</p>
+		</section>
+
+		<section data-point="usage" data-title="Usage">
+			<h2>Usage</h2>
+
+			<p><code>FPSMeter</code> is a class you use to create one meter instance:</p>
+
+			<pre><code data-language="javascript">var meter = new FPSMeter([ anchor ] [, options ]);</code></pre>
+
+			<p>Arguments:</p>
+
+			<ul>
+				<li><code>anchor</code> - Element to which the meter will be appended to. When omitted, <code>document.body</code> is used.</li>
+				<li><code>options</code> - Object with FPSMeter options. See <a href="https://github.com/Darsain/fpsmeter/wiki/Options">Options documentation page</a>.</li>
+			</ul>
+
+			<h3>Measuring</h3>
+
+			<p>To start measuring the FPS call the <code>.tick()</code> method at the end of each frame:</p>
+
+			<pre><code data-language="javascript">// Function that renders one frame
+function render() {
+	// ... rendering happens here ...
+	meter.tick();
+}</code></pre>
+
+			<p>In this setup, FPSMeter will measure FPS, and time between frames.</p>
+
+			<p>To measure the time it takes to render one frame, call the <code>.tickStart()</code> method at the beginning of each frame:</p>
+
+			<pre><code data-language="javascript">// Function that renders one frame
+function render() {
+	meter.tickStart();
+	// ... rendering happens here ...
+	meter.tick();
+}</code></pre>
+
+			<p>You can change between FPS and duration display by clicking on meter element, or calling <code>.showFps()</code>, <code>.showDuration()</code>, or <code>.toggle()</code> methods.</p>
+
+			<p>To see all available methods, read the <a href="https://github.com/Darsain/fpsmeter/wiki/Methods">Methods documentation page</a>.</p>
+		</section>
+
+		<section data-point="documentation" data-title="Documentation">
+			<h2>Documentation</h2>
+
+			<p>Documentation is centralized in the <a href="https://github.com/Darsain/fpsmeter/wiki">FPSMeter's Repository Wiki</a>, which makes it way easier to maintain and keep always up to date.</p>
+
+			<ul class="grid">
+				<li><a href="https://github.com/Darsain/fpsmeter/wiki/Calling"><i class="icon-book icon-large"></i> Calling</a></li>
+				<li><a href="https://github.com/Darsain/fpsmeter/wiki/Options"><i class="icon-book icon-large"></i> Options</a></li>
+				<li><a href="https://github.com/Darsain/fpsmeter/wiki/Properties"><i class="icon-book icon-large"></i> Properties</a></li>
+				<li><a href="https://github.com/Darsain/fpsmeter/wiki/Methods"><i class="icon-book icon-large"></i> Methods</a></li>
+				<li><a href="https://github.com/Darsain/fpsmeter/wiki/Theming"><i class="icon-book icon-large"></i> Theming</a></li>
+			</ul>
+		</section>
+	</div>
+
+	<footer class="pagespan" data-point="license" data-title="License">
+		<a id="license" class="license">
+			<i class="icon-refresh icon-spin"></i> Loading license <i class="icon-refresh icon-spin"></i>
+		</a>
+
+		<div id="repos" class="repos" data-display="sly,motio,imagesLoaded,espy">
+			<i class="icon-refresh icon-large icon-spin"></i>
+			<h6>Loading other projects</h6>
+		</div>
+	</footer>
+
+	<!-- Templates -->
+	<script type="text/tim" class="version">
+		{{version}}  <small>{{date}}</small>
+	</script>
+
+	<script type="text/tim" class="watchers">
+		<span class="size">{{watchers}} <small>watchers</small></span>
+	</script>
+
+	<script type="text/tim" class="license">
+		<span class="fl">{{license}}</span>
+		<span class="fr">{{license}}</span>
+		Lincensed under the <strong>{{license}}</strong> license
+	</script>
+
+	<script type="text/tim" class="repos">
+		<ul class="clearfix">
+			{{items}}
+				<li>
+					<a href="{{url}}">
+						<h4>{{name}}</h4>
+						<span class="watchers"><i class="icon-star"></i> {{watchers}}</span>
+						<p>{{description}}</p>
+					</a>
+				</li>
+			{{/items}}
+		</ul>
+	</script>
+
+	<!-- Scripts -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="js/vendor/plugins.js"></script>
+	<script src="js/ospb.js"></script>
+	<script src="js/fpsmeter.min.js"></script>
+	<script src="js/main.js"></script>
+
+	<!-- Google Analytics -->
+	<script>
+		var _gaq=[['_setAccount','UA-838758-7'],['_trackPageview']];
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
+</body>
+</html>
