@@ -1,5 +1,5 @@
 /*!
- * FPSMeter 0.2.0 - 11th Apr 2013
+ * FPSMeter 0.2.1 - 12th Apr 2013
  * https://github.com/Darsain/fpsmeter
  *
  * Licensed under the MIT license.
@@ -699,7 +699,8 @@
 			minWidth: '95px',
 			height: '30px',
 			lineHeight: '30px',
-			textAlign: 'right'
+			textAlign: 'right',
+			textShadow: 'none'
 		},
 		count: {
 			// Settings
@@ -781,8 +782,9 @@
 			lightness: 0.5
 		}],
 		container: {
-			color: '#444',
+			color: '#666',
 			background: '#fff',
+			textShadow: '1px 1px 0 rgba(255,255,255,.5), -1px -1px 0 rgba(255,255,255,.5)',
 			boxShadow: '0 0 0 1px rgba(0,0,0,.1)'
 		},
 		count: {
@@ -801,11 +803,10 @@
 		}],
 		container: {
 			heatOn: 'backgroundColor',
-			background: '#aaa',
-			border: '1px solid #ccc',
-			borderColor: 'rgba(0,0,0,0.1)',
+			background: '#888',
 			color: '#fff',
-			textShadow: '1px 1px 0 rgba(0,0,0,.2)'
+			textShadow: '1px 1px 0 rgba(0,0,0,.2)',
+			boxShadow: '0 0 0 1px rgba(0,0,0,.1)'
 		},
 		column: {
 			background: '#777',
@@ -822,7 +823,7 @@
 		container: {
 			padding: 0,
 			color: '#fff',
-			textShadow: '1px 1px 0 rgba(0,0,0,.3)'
+			textShadow: '1px 1px 0 rgba(0,0,0,.5)'
 		},
 		count: {
 			padding: '0 5px',
@@ -839,8 +840,7 @@
 		},
 		column: {
 			width: 5,
-			background: '#777',
-			backgroundColor: 'rgba(0,0,0,.3)',
+			background: '#999',
 			heatOn: 'backgroundColor',
 			opacity: 0.5
 		}
