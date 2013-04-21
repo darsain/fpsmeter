@@ -1,6 +1,180 @@
 ;(function (w, undefined) {
 	'use strict';
 
+	/**
+	 * Create a new element.
+	 *
+	 * @param  {String} name Element type name.
+	 *
+	 * @return {Element}
+	 */
+	function newEl(name) {
+		return document.createElement(name);
+	}
+
+	/**
+	 * Apply theme CSS properties to element.
+	 *
+	 * @param  {Element} element DOM element.
+	 * @param  {Object}  theme   Theme object.
+	 *
+	 * @return {Element}
+	 */
+	function applyTheme(element, theme) {
+		for (var name in theme) {
+			try {
+				element.style[name] = theme[name];
+			} catch (e) {}
+		}
+		return element;
+	}
+
+	/**
+	 * Return type of the value.
+	 *
+	 * @param  {Mixed} value
+	 *
+	 * @return {String}
+	 */
+	function type(value) {
+		return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase();
+	}
+
+	/**
+	 * Check whether the value is in an array.
+	 *
+	 * @param  {Mixed} value
+	 * @param  {Array} array
+	 *
+	 * @return {Integer} Array index or -1 when not found.
+	 */
+	function inArray(value, array) {
+		if (type(array) !== 'array') {
+			return -1;
+		}
+		if (array.indexOf) {
+			return array.indexOf(value);
+		}
+		for (var i = 0, l = array.length; i < l; i++) {
+			if (array[i] === value) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Poor man's deep object extend.
+	 *
+	 * Example:
+	 *   extend({}, defaults, options);
+	 *
+	 * @return {Void}
+	 */
+	function extend() {
+		var args = arguments;
+		for (var key in args[1]) {
+			if (args[1].hasOwnProperty(key)) {
+				switch (type(args[1][key])) {
+					case 'object':
+						args[0][key] = extend({}, args[0][key], args[1][key]);
+						break;
+
+					case 'array':
+						args[0][key] = args[1][key].slice(0);
+						break;
+
+					default:
+						args[0][key] = args[1][key];
+				}
+			}
+		}
+		return args.length > 2 ?
+			extend.apply(null, [args[0]].concat(Array.prototype.slice.call(args, 2))) :
+			args[0];
+	}
+
+	/**
+	 * Convert HSL color to HEX string.
+	 *
+	 * @param  {Array} hsl Array with [hue, saturation, lightness].
+	 *
+	 * @return {Array} Array with [red, green, blue].
+	 */
+	function hslToHex(h, s, l) {
+		var r, g, b;
+		var v, min, sv, sextant, fract, vsf;
+
+		if (l <= 0.5) {
+			v = l * (1 + s);
+		} else {
+			v = l + s - l * s;
+		}
+
+		if (v === 0) {
+			return '#000';
+		} else {
+			min = 2 * l - v;
+			sv = (v - min) / v;
+			h = 6 * h;
+			sextant = Math.floor(h);
+			fract = h - sextant;
+			vsf = v * sv * fract;
+			if (sextant === 0 || sextant === 6) {
+				r = v;
+				g = min + vsf;
+				b = min;
+			} else if (sextant === 1) {
+				r = v - vsf;
+				g = v;
+				b = min;
+			} else if (sextant === 2) {
+				r = min;
+				g = v;
+				b = min + vsf;
+			} else if (sextant === 3) {
+				r = min;
+				g = v - vsf;
+				b = v;
+			} else if (sextant === 4) {
+				r = min + vsf;
+				g = min;
+				b = v;
+			} else {
+				r = v;
+				g = min;
+				b = v - vsf;
+			}
+			return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+		}
+	}
+
+	/**
+	 * Helper function for hslToHex.
+	 */
+	function componentToHex(c) {
+		c = Math.round(c * 255).toString(16);
+		return c.length === 1 ? '0' + c : c;
+	}
+
+	/**
+	 * Manage element event listeners.
+	 *
+	 * @param  {Node}     element
+	 * @param  {Event}    eventName
+	 * @param  {Function} handler
+	 * @param  {Bool}     remove
+	 *
+	 * @return {Void}
+	 */
+	function listener(element, eventName, handler, remove) {
+		if (element.addEventListener) {
+			element[remove ? 'removeEventListener' : 'addEventListener'](eventName, handler, false);
+		} else if (element.attachEvent) {
+			element[remove ? 'detachEvent' : 'attachEvent']('on' + eventName, handler);
+		}
+	}
+
 	// Local WindowAnimationTiming interface polyfill
 	var cAF = w.cancelAnimationFrame || w.cancelRequestAnimationFrame;
 	var rAF = w.requestAnimationFrame;
@@ -28,6 +202,9 @@
 			};
 		}
 	}());
+
+	// Property name for assigning element text content
+	var textProp = type(document.createElement('div').textContent) === 'string' ? 'textContent' : 'innerText';
 
 	/**
 	 * FPSMeter class.
@@ -221,36 +398,11 @@
 			// Update legend only when changed
 			if (el.legend.fps !== showFps) {
 				el.legend.fps = showFps;
-				el.legend.innerText = showFps ? 'FPS' : 'ms';
+				el.legend[textProp] = showFps ? 'FPS' : 'ms';
 			}
 			// Update counter with a nicely formated & readable number
 			count = showFps ? self.fps : self.duration;
-			el.count.innerText = count > 999 ? '999+' : count.toFixed(count > 99 ? 0 : o.decimals);
-		}
-
-		/**
-		 * Apply heat color to the element.
-		 *
-		 * @param  {String} name Element name.
-		 * @param  {Float}  fps  FPS.
-		 * @param  {Int}    ms   Duration milliseconds.
-		 *
-		 * @return {Void}
-		 */
-		function applyHeat() {
-			if (heating.length) {
-				heat = Math.round(Math.min((showFps ? self.fps / o.maxFps : self.duration / o.threshold) * heatDepth, heatDepth));
-				for (i = heating.length; i--;) {
-					heating[i].el.style[theme[heating[i].name].heatOn] = heatmaps[0|theme[heating[i].name].heatmap][heat];
-				}
-			}
-
-			if (el.graph && theme.column.heatOn) {
-				for (i = cols.length; i--;) {
-					heat = Math.round(Math.min((showFps ? fpsHistory[i] / o.maxFps : durationHistory[i] / o.threshold) * heatDepth, heatDepth));
-					cols[i].style[theme.column.heatOn] = heatmaps[0|theme.column.heatmap][heat];
-				}
-			}
+			el.count[textProp] = count > 999 ? '999+' : count.toFixed(count > 99 ? 0 : o.decimals);
 		}
 
 		/**
@@ -271,7 +423,19 @@
 
 			// Apply heat to elements
 			if (o.heat) {
-				applyHeat();
+				if (heating.length) {
+					heat = Math.round(Math.min((showFps ? self.fps / o.maxFps : self.duration / o.threshold) * heatDepth, heatDepth));
+					for (i = heating.length; i--;) {
+						heating[i].el.style[theme[heating[i].name].heatOn] = heatmaps[0|theme[heating[i].name].heatmap][heat];
+					}
+				}
+
+				if (el.graph && theme.column.heatOn) {
+					for (i = cols.length; i--;) {
+						heat = Math.round(Math.min((showFps ? fpsHistory[i] / o.maxFps : durationHistory[i] / o.threshold) * heatDepth, heatDepth));
+						cols[i].style[theme.column.heatOn] = heatmaps[0|theme.column.heatmap][heat];
+					}
+				}
 			}
 
 			// Update graph columns height
@@ -455,180 +619,6 @@
 
 	// Expose the FPSMeter class
 	window.FPSMeter = FPSMeter;
-
-	/**
-	 * Create a new element.
-	 *
-	 * @param  {String} name Element type name.
-	 *
-	 * @return {Element}
-	 */
-	function newEl(name) {
-		return document.createElement(name);
-	}
-
-	/**
-	 * Apply theme CSS properties to element.
-	 *
-	 * @param  {Element} element DOM element.
-	 * @param  {Object}  theme   Theme object.
-	 *
-	 * @return {Element}
-	 */
-	function applyTheme(element, theme) {
-		for (var name in theme) {
-			try {
-				element.style[name] = theme[name];
-			} catch (e) {}
-		}
-		return element;
-	}
-
-	/**
-	 * Return type of the value.
-	 *
-	 * @param  {Mixed} value
-	 *
-	 * @return {String}
-	 */
-	function type(value) {
-		return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase();
-	}
-
-	/**
-	 * Check whether the value is in an array.
-	 *
-	 * @param  {Mixed} value
-	 * @param  {Array} array
-	 *
-	 * @return {Integer} Array index or -1 when not found.
-	 */
-	function inArray(value, array) {
-		if (type(array) !== 'array') {
-			return -1;
-		}
-		if (array.indexOf) {
-			return array.indexOf(value);
-		}
-		for (var i = 0, l = array.length; i < l; i++) {
-			if (array[i] === value) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	/**
-	 * Poor man's deep object extend.
-	 *
-	 * Example:
-	 *   extend({}, defaults, options);
-	 *
-	 * @return {Void}
-	 */
-	function extend() {
-		var args = arguments;
-		for (var key in args[1]) {
-			if (args[1].hasOwnProperty(key)) {
-				switch (type(args[1][key])) {
-					case 'object':
-						args[0][key] = extend({}, args[0][key], args[1][key]);
-						break;
-
-					case 'array':
-						args[0][key] = args[1][key].slice(0);
-						break;
-
-					default:
-						args[0][key] = args[1][key];
-				}
-			}
-		}
-		return args.length > 2 ?
-			extend.apply(null, [args[0]].concat(Array.prototype.slice.call(args, 2))) :
-			args[0];
-	}
-
-	/**
-	 * Convert HSL color to HEX string.
-	 *
-	 * @param  {Array} hsl Array with [hue, saturation, lightness].
-	 *
-	 * @return {Array} Array with [red, green, blue].
-	 */
-	function hslToHex(h, s, l) {
-		var r, g, b;
-		var v, min, sv, sextant, fract, vsf;
-
-		if (l <= 0.5) {
-			v = l * (1 + s);
-		} else {
-			v = l + s - l * s;
-		}
-
-		if (v === 0) {
-			return '#000';
-		} else {
-			min = 2 * l - v;
-			sv = (v - min) / v;
-			h = 6 * h;
-			sextant = Math.floor(h);
-			fract = h - sextant;
-			vsf = v * sv * fract;
-			if (sextant === 0 || sextant === 6) {
-				r = v;
-				g = min + vsf;
-				b = min;
-			} else if (sextant === 1) {
-				r = v - vsf;
-				g = v;
-				b = min;
-			} else if (sextant === 2) {
-				r = min;
-				g = v;
-				b = min + vsf;
-			} else if (sextant === 3) {
-				r = min;
-				g = v - vsf;
-				b = v;
-			} else if (sextant === 4) {
-				r = min + vsf;
-				g = min;
-				b = v;
-			} else {
-				r = v;
-				g = min;
-				b = v - vsf;
-			}
-			return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
-		}
-	}
-
-	/**
-	 * Helper function for hslToHex.
-	 */
-	function componentToHex(c) {
-		c = Math.round(c * 255).toString(16);
-		return c.length === 1 ? '0' + c : c;
-	}
-
-	/**
-	 * Manage element event listeners.
-	 *
-	 * @param  {Node}     element
-	 * @param  {Event}    eventName
-	 * @param  {Function} handler
-	 * @param  {Bool}     remove
-	 *
-	 * @return {Void}
-	 */
-	function listener(element, eventName, handler, remove) {
-		if (element.addEventListener) {
-			element[remove ? 'removeEventListener' : 'addEventListener'](eventName, handler, false);
-		} else if (element.attachEvent) {
-			element[remove ? 'detachEvent' : 'attachEvent']('on' + eventName, handler);
-		}
-	}
 
 	// Default options
 	FPSMeter.defaults = {
