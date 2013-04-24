@@ -175,6 +175,20 @@
 		}
 	}
 
+	// Preferred timing funtion
+	var getTime;
+	(function () {
+		var perf = w.performance;
+		if (perf) {
+			var perfNow = perf.now ? 'now' : 'webkitNow';
+			getTime = perf[perfNow].bind(perf);
+		} else {
+			getTime = function () {
+				return +new Date();
+			};
+		}
+	}());
+
 	// Local WindowAnimationTiming interface polyfill
 	var cAF = w.cancelAnimationFrame || w.cancelRequestAnimationFrame;
 	var rAF = w.requestAnimationFrame;
@@ -191,7 +205,7 @@
 
 		if (!cAF) {
 			rAF = function (callback) {
-				var currTime = +new Date();
+				var currTime = getTime();
 				var timeToCall = Math.max(0, 16 - (currTime - lastTime));
 				lastTime = currTime + timeToCall;
 				return w.setTimeout(function () { callback(currTime + timeToCall); }, timeToCall);
@@ -235,7 +249,7 @@
 		var thisFrameTime = 0;
 		var frameTime = o.threshold;
 		var frameStart = 0;
-		var lastLoop = +new Date() - frameTime;
+		var lastLoop = getTime() - frameTime;
 		var time;
 
 		var fpsHistory = [];
@@ -257,7 +271,7 @@
 		 * @return {Void}
 		 */
 		self.tickStart = function () {
-			frameStart = +new Date();
+			frameStart = getTime();
 		};
 
 		/**
@@ -266,7 +280,7 @@
 		 * @return {Void}
 		 */
 		self.tick = function () {
-			time = +new Date();
+			time = getTime();
 			thisFrameTime = time - lastLoop;
 			frameTime += (thisFrameTime - frameTime) / o.smoothing;
 			self.fps = 1000 / frameTime;
@@ -425,7 +439,7 @@
 		 * @return {Void}
 		 */
 		function render() {
-			time = +new Date();
+			time = getTime();
 			// If renderer stopped reporting, do a simulated drop to 0 fps
 			if (lastLoop < time - o.threshold) {
 				self.fps -= self.fps / Math.max(1, o.smoothing * 60 / o.interval);
