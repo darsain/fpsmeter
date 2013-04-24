@@ -39,7 +39,10 @@ module.exports = function(grunt) {
 				banner: '<%= meta.banner %>'
 			},
 			dist: {
-				src: 'src/<%= pkg.name %>.js',
+				src: [
+					'src/<%= pkg.name %>.js',
+					'src/themes.js'
+				],
 				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
@@ -50,7 +53,10 @@ module.exports = function(grunt) {
 				banner: '<%= meta.bannerLight %>'
 			},
 			dist: {
-				src: 'src/<%= pkg.name %>.js',
+				src: [
+					'src/<%= pkg.name %>.js',
+					'src/themes.js'
+				],
 				dest: 'dist/<%= pkg.name %>.min.js'
 			}
 		},
