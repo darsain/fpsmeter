@@ -243,7 +243,7 @@
 
 		var frameID, renderID;
 		var showFps = o.show === 'fps';
-		var graphHeight, heat, count, i, j;
+		var graphHeight, count, i, j;
 
 		// Exposed properties
 		self.options = o;
@@ -380,13 +380,27 @@
 		/**
 		 * Check the current FPS and save it in history.
 		 *
-		 * @return {Void} [description]
+		 * @return {Void}
 		 */
 		function historyTick() {
 			for (i = o.history; i--;) {
 				fpsHistory[i] = i === 0 ? self.fps : fpsHistory[i-1];
 				durationHistory[i] = i === 0 ? self.duration : durationHistory[i-1];
 			}
+		}
+
+		/**
+		 * Returns heat hex color based on values passed.
+		 *
+		 * @param  {Integer} heatmap
+		 * @param  {Integer} value
+		 * @param  {Integer} min
+		 * @param  {Integer} max
+		 *
+		 * @return {Integer}
+		 */
+		function getHeat(heatmap, value, min, max) {
+			return heatmaps[0|heatmap][Math.round(Math.min((value - min) / (max - min) * heatDepth, heatDepth))];
 		}
 
 		/**
@@ -424,16 +438,18 @@
 			// Apply heat to elements
 			if (o.heat) {
 				if (heating.length) {
-					heat = Math.round(Math.min((showFps ? self.fps / o.maxFps : self.duration / o.threshold) * heatDepth, heatDepth));
 					for (i = heating.length; i--;) {
-						heating[i].el.style[theme[heating[i].name].heatOn] = heatmaps[0|theme[heating[i].name].heatmap][heat];
+						heating[i].el.style[theme[heating[i].name].heatOn] = showFps ?
+							getHeat(theme[heating[i].name].heatmap, self.fps, 0, o.maxFps) :
+							getHeat(theme[heating[i].name].heatmap, self.duration, o.threshold, 0);
 					}
 				}
 
 				if (el.graph && theme.column.heatOn) {
 					for (i = cols.length; i--;) {
-						heat = Math.round(Math.min((showFps ? fpsHistory[i] / o.maxFps : durationHistory[i] / o.threshold) * heatDepth, heatDepth));
-						cols[i].style[theme.column.heatOn] = heatmaps[0|theme.column.heatmap][heat];
+						cols[i].style[theme.column.heatOn] = showFps ?
+							getHeat(theme.column.heatmap, fpsHistory[i], 0, o.maxFps) :
+							getHeat(theme.column.heatmap, durationHistory[i], o.threshold, 0);
 					}
 				}
 			}
