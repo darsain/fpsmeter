@@ -6,9 +6,11 @@ Simple JavaScript library for sexy, fast, and themable FPS meter. It can measure
 - number of milliseconds between frames
 - number of milliseconds it takes to render one frame
 
-FPSMeter rendering is optimized and chained to requestAnimationFrame (with a polyfill for older browsers), so it should
-be as smooth and as fast as possible. It also supports multiple instances on one page, has show/hide methods that also
-pause the meter rendering, and color heatmaps that make themes even more pretty!
+FPSMeter uses `performance.now()` to more accurately measure rendering timing, with a fallback to `+new Date()`.
+
+The actual display rendering is optimized and chained to requestAnimationFrame (with a polyfill for older browsers), so
+it should be as smooth and as fast as possible. It also supports multiple instances on one page, has show/hide methods
+that also pause the rendering, and color heatmaps that make themes even more pretty!
 
 #### Dependencies
 
