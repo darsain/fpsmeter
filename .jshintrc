@@ -1,4 +1,8 @@
 {
+	"predef" : [
+		"FPSMeter"
+	],
+
 	"bitwise": false,
 	"camelcase": false,
 	"curly": true,
