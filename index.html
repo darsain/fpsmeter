@@ -70,6 +70,8 @@
 				<li>number of milliseconds it takes to render one frame (when using the <code>.tickStart()</code> method)</li>
 			</ul>
 
+			<p>For higher accuracy, timing is measured with <code>performance.now()</code> when available, with a fallback to <code>+new Date()</code> for older browsers.</p>
+
 			<p>FPSMeter supports multiple instances on one page, has show/hide methods that also pause the meter rendering, and color heatmaps that make themes even more pretty!</p>
 
 			<h3>Dependencies</h3>
