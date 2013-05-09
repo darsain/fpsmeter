@@ -37,7 +37,15 @@
 	 * @return {String}
 	 */
 	function type(value) {
-		return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase();
+		if (value == null) {
+			return String(value);
+		}
+
+		if (typeof value === 'object' || typeof value === 'function') {
+			return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase() || 'object';
+		}
+
+		return typeof value;
 	}
 
 	/**
@@ -179,7 +187,7 @@
 	var getTime;
 	(function () {
 		var perf = w.performance;
-		if (perf) {
+		if (perf && (perf.now || perf.webkitNow)) {
 			var perfNow = perf.now ? 'now' : 'webkitNow';
 			getTime = perf[perfNow].bind(perf);
 		} else {
