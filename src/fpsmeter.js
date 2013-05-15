@@ -40,11 +40,11 @@
 		if (value == null) {
 			return String(value);
 		}
-
 		if (typeof value === 'object' || typeof value === 'function') {
-			return Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase() || 'object';
+			return (value instanceof w.NodeList && 'nodelist') ||
+				(value instanceof w.HTMLCollection && 'htmlcollection') ||
+				Object.prototype.toString.call(value).match(/\s([a-z]+)/i)[1].toLowerCase();
 		}
-
 		return typeof value;
 	}
 
@@ -85,7 +85,11 @@
 			if (args[1].hasOwnProperty(key)) {
 				switch (type(args[1][key])) {
 					case 'object':
-						args[0][key] = extend({}, args[0][key], args[1][key]);
+						if (type(args[0][key]) === 'object') {
+							extend(args[0][key], args[1][key]);
+						} else {
+							args[0][key] = extend({}, args[1][key]);
+						}
 						break;
 
 					case 'array':
