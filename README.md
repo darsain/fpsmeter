@@ -20,7 +20,7 @@ None.
 
 Works in IE7+ and all modern browsers.
 
-### [Changelog](https://github.com/Darsain/fpsmeter/wiki/Changelog)
+### [Changelog](https://github.com/darsain/fpsmeter/wiki/Changelog)
 
 FPSMeter upholds the [Semantic Versioning Specification](http://semver.org/).
 
@@ -34,16 +34,16 @@ bower install fpsmeter
 
 Or manually download the latest stable release:
 
-- [Production (minified)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.min.js) - 7KB, 3KB gzipped
-- [Development (full source)](https://raw.github.com/Darsain/fpsmeter/master/dist/fpsmeter.js) - 18KB
+- [Production (minified)](https://raw.github.com/darsain/fpsmeter/master/dist/fpsmeter.min.js) - 7KB, 3KB gzipped
+- [Development (full source)](https://raw.github.com/darsain/fpsmeter/master/dist/fpsmeter.js) - 18KB
 
 ## Documentation
 
-- **[Calling](https://github.com/Darsain/fpsmeter/wiki/Calling)** - how to call FPSMeter, plus usage examples
-- **[Options](https://github.com/Darsain/fpsmeter/wiki/Options)** - all available options
-- **[Properties](https://github.com/Darsain/fpsmeter/wiki/Properties)** - accessible FPSMeter object properties
-- **[Methods](https://github.com/Darsain/fpsmeter/wiki/Methods)** - all available methods, and how to use them
-- **[Theming](https://github.com/Darsain/fpsmeter/wiki/Theming)** - how to theme FPSMeter
+- **[Calling](https://github.com/darsain/fpsmeter/wiki/Calling)** - how to call FPSMeter, plus usage examples
+- **[Options](https://github.com/darsain/fpsmeter/wiki/Options)** - all available options
+- **[Properties](https://github.com/darsain/fpsmeter/wiki/Properties)** - accessible FPSMeter object properties
+- **[Methods](https://github.com/darsain/fpsmeter/wiki/Methods)** - all available methods, and how to use them
+- **[Theming](https://github.com/darsain/fpsmeter/wiki/Theming)** - how to theme FPSMeter
 
 ## Contributing
 
