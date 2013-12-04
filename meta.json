@@ -1,18 +1,8 @@
 {
 	"name": "fpsmeter",
-	"title": "FPSMeter",
 	"description": "Sexy, fast, and themable FPS meter.",
 	"version": "0.3.1",
 	"date": "2013-05-09 17:29:05 +00:00",
-	"homepage": "https://github.com/darsain/fpsmeter",
-	"main": "./dist/fpsmeter.js",
-	"ignore": [
-		".editorconfig",
-		".jshintrc",
-		"CONTRIBUTING.md",
-		"Gruntfile.js",
-		"package.json"
-	],
 	"bugs": "https://github.com/darsain/fpsmeter/issues",
 	"repository": {
 		"type": "git",

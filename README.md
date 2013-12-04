@@ -24,18 +24,16 @@ Works in IE7+ and all modern browsers.
 
 FPSMeter upholds the [Semantic Versioning Specification](http://semver.org/).
 
-## Installation
+## Download
 
-You can install with [Bower](http://twitter.github.io/bower):
+Latest stable release:
 
-```shell
-bower install fpsmeter
-```
+- [Production `fpsmeter.min.js`](https://raw.github.com/darsain/fpsmeter/master/dist/fpsmeter.min.js) - 7KB, 3KB gzipped
+- [Development `fpsmeter.js`](https://raw.github.com/darsain/fpsmeter/master/dist/fpsmeter.js) - 18KB
 
-Or manually download the latest stable release:
+When isolating issues on jsfiddle, you can use this URL:
 
-- [Production (minified)](https://raw.github.com/darsain/fpsmeter/master/dist/fpsmeter.min.js) - 7KB, 3KB gzipped
-- [Development (full source)](https://raw.github.com/darsain/fpsmeter/master/dist/fpsmeter.js) - 18KB
+- [http://darsain.github.io/fpsmeter/js/fpsmeter.min.js](http://darsain.github.io/fpsmeter/js/fpsmeter.min.js)
 
 ## Documentation
 
